@@ -11,6 +11,7 @@ class StopWatchManager: ObservableObject {
     
     @Published var mode: stopWatchMode = .stopped
     @Published var secondsElapsed = 0.0
+ 
     
     var timer = Timer()
     
