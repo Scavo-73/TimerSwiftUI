@@ -13,6 +13,7 @@ struct TimerView: View {
     
     @State private var isBlinking: Bool = true
     
+
     var body: some View {
         VStack {
             Text(String(format: "%.1f", stopWatchManager.secondsElapsed))
@@ -20,7 +21,7 @@ struct TimerView: View {
                 .padding(.top, 200)
                 .padding(.bottom, 100)
                 .opacity(isBlinking ? 1.0 : 0.0)
-                .animation(Animation.easeInOut(duration:0.5).repeatForever(autoreverses:true),value: isBlinking)
+                .animation(isBlinking ? nil : Animation.easeInOut(duration: 0.5).repeatForever(autoreverses: true), value: isBlinking)
             
             if stopWatchManager.mode == .stopped {
                            Button(action: {self.stopWatchManager.start()}) {
@@ -37,10 +38,13 @@ struct TimerView: View {
             if stopWatchManager.mode == .paused {
                             Button(action: {
                                 self.stopWatchManager.start()
+                                isBlinking.toggle()
                             }) {
                                 TimerButton(label: "Start", buttonColor: .blue)
                             }
-                            Button(action: {self.stopWatchManager.stop()}) {
+                            Button(action: {self.stopWatchManager.stop()
+                                isBlinking.toggle()
+                            }) {
                                 TimerButton(label: "Stop", buttonColor: .red)
                             }
                                 .padding(.top, 30)
