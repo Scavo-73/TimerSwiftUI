@@ -16,7 +16,7 @@ struct TimerView: View {
 
     var body: some View {
         VStack {
-            Text(String(format: "%.1f", stopWatchManager.secondsElapsed))
+            Text("\(stopWatchManager.secondsLeft)")
                 .font(.custom("Avenir", size: 40))
                 .padding(.top, 200)
                 .padding(.bottom, 100)
@@ -45,7 +45,7 @@ struct TimerView: View {
                             Button(action: {self.stopWatchManager.stop()
                                 isBlinking.toggle()
                             }) {
-                                TimerButton(label: "Stop", buttonColor: .red)
+                                TimerButton(label: "Reset", buttonColor: .red)
                             }
                                 .padding(.top, 30)
                         }

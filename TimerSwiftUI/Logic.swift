@@ -10,29 +10,34 @@ import Foundation
 class StopWatchManager: ObservableObject {
     
     @Published var mode: stopWatchMode = .stopped
-    @Published var secondsElapsed = 0.0
+    @Published var secondsLeft = 60
  
     
     var timer = Timer()
     
     func start() {
         mode = .running
-         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-             self.secondsElapsed = self.secondsElapsed + 0.1
-         }
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { timer in
+            if self.secondsLeft == 0 {
+                self.secondsLeft = 61
+                self.mode = .stopped
+                timer.invalidate()
+             }
+            self.secondsLeft -= 1
+         })
      }
     
-    func pause() {
-        timer.invalidate()
-        mode = .paused
-    }
-    
     func stop() {
-           timer.invalidate()
-           secondsElapsed = 0
-           mode = .stopped
+        self.secondsLeft = 60
+        self.mode = .stopped
+        timer.invalidate()
        }
-       
+    
+    func pause() {
+        self.mode = .paused
+        timer.invalidate()
+    }
+
 }
 
 enum stopWatchMode {
@@ -40,3 +45,6 @@ enum stopWatchMode {
     case stopped
     case paused
 }
+
+
+
